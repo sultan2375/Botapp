@@ -4,298 +4,148 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ✅ Monetag SDK (FIXED HTTPS) -->
+<!-- Monetag -->
 <script src='//libtl.com/sdk.js' data-zone='10999771' data-sdk='show_10999771'></script>
 
-<!-- ✅ Telegram WebApp -->
+<!-- Telegram -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<title>Ad Reward App</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<title>Self Earn</title>
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
 
-:root {
-  --silver: #c0c0c0;
-  --silver-light: #e8e8e8;
-  --silver-dark: #888;
-  --gold: #ffd700;
-  --dark: #0a0a0a;
-  --green: #22c55e;
-}
-
+/* 🌌 Background */
 body {
-  background: #0a0a0a;
-  color: white;
-  font-family: 'Rajdhani', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  overflow: hidden;
-  position: relative;
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family: 'Segoe UI', sans-serif;
+  color:white;
+  overflow:hidden;
+  background: linear-gradient(-45deg, #020617, #0f172a, #020617, #1e293b);
+  background-size: 400% 400%;
+  animation: bgMove 10s ease infinite;
 }
 
-/* ===== BACKGROUND LOGO ===== */
-.bg-logo {
+@keyframes bgMove {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+
+/* ⚡ Canvas */
+canvas {
   position: fixed;
-  inset: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.bg-logo img {
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  opacity: 0.18;
-  filter: grayscale(20%) contrast(1.1);
-}
-
-/* ===== POWER LINES CANVAS ===== */
-#powerCanvas {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* ===== ANALOG CLOCK ===== */
-.clock-wrapper {
-  position: fixed;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.clock-container {
-  position: relative;
-  width: 130px;
-  height: 130px;
-}
-
-#analogClock {
-  width: 130px;
-  height: 130px;
-  filter: drop-shadow(0 0 14px rgba(192,192,192,0.5)) drop-shadow(0 0 30px rgba(192,192,192,0.2));
-}
-
-.clock-label {
-  font-family: 'Orbitron', monospace;
-  font-size: 10px;
-  letter-spacing: 4px;
-  color: var(--silver);
-  text-transform: uppercase;
-  text-shadow: 0 0 8px rgba(192,192,192,0.6);
-  opacity: 0.85;
-}
-
-/* ===== MAIN BOX ===== */
-.box {
-  position: relative;
-  z-index: 5;
-  width: 340px;
-  background: rgba(10, 10, 10, 0.55);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  padding: 26px 22px 22px;
-  border-radius: 18px;
-  text-align: center;
-  border: 1px solid rgba(192,192,192,0.18);
-  box-shadow:
-    0 0 0 1px rgba(192,192,192,0.08),
-    0 8px 40px rgba(0,0,0,0.7),
-    inset 0 1px 0 rgba(255,255,255,0.07);
-  margin-top: 160px;
-}
-
-.box::before {
-  content: '';
-  position: absolute;
-  top: -1px; left: 20px; right: 20px; height: 2px;
-  background: linear-gradient(90deg, transparent, var(--silver), transparent);
-  border-radius: 2px;
-  opacity: 0.5;
-}
-
-.box h2 {
-  font-family: 'Orbitron', monospace;
-  font-size: 18px;
-  font-weight: 900;
-  letter-spacing: 4px;
-  color: var(--silver-light);
-  text-shadow: 0 0 12px rgba(192,192,192,0.5);
-  margin-bottom: 14px;
-}
-
-.stat-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.stat-card {
-  flex: 1;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(192,192,192,0.12);
-  border-radius: 10px;
-  padding: 10px 8px;
-}
-
-.stat-card .label {
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: var(--silver-dark);
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-
-.stat-card .value {
-  font-family: 'Orbitron', monospace;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--silver-light);
-  text-shadow: 0 0 10px rgba(192,192,192,0.4);
-}
-
-#user {
-  font-size: 12px;
-  color: var(--silver-dark);
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-  padding: 7px 10px;
-  background: rgba(255,255,255,0.03);
-  border-radius: 8px;
-  border: 1px solid rgba(192,192,192,0.08);
-}
-
-.progress {
-  height: 8px;
-  background: rgba(255,255,255,0.06);
-  margin-bottom: 14px;
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid rgba(192,192,192,0.1);
-}
-
-.fill {
-  height: 100%;
-  background: linear-gradient(90deg, #22c55e, #4ade80);
-  width: 0%;
-  border-radius: 10px;
-  transition: width 0.5s ease;
-  box-shadow: 0 0 8px rgba(34,197,94,0.6);
-}
-
-button {
+  top: 0;
+  left: 0;
   width: 100%;
-  padding: 13px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #1a7a3a, #22c55e);
-  color: white;
-  font-family: 'Orbitron', monospace;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(34,197,94,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+  height: 100%;
+  z-index: 0;
 }
 
-button::before {
-  content: '';
-  position: absolute;
-  top: -50%; left: -60%;
-  width: 40%; height: 200%;
-  background: rgba(255,255,255,0.15);
-  transform: skewX(-20deg);
-  transition: left 0.5s ease;
+/* 🧊 Card */
+.box {
+  width:360px;
+  padding:25px;
+  border-radius:20px;
+  backdrop-filter: blur(15px);
+  background: rgba(30,41,59,0.6);
+  text-align:center;
+  z-index:2;
+  position:relative;
 }
 
-button:hover::before { left: 120%; }
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(34,197,94,0.5);
+/* ⚡ Power Line */
+.power-line {
+  margin-top:15px;
+  height:20px;
+  position:relative;
 }
-button:active { transform: translateY(0px); }
+
+.line {
+  width:100%;
+  height:4px;
+  background: rgba(255,255,255,0.2);
+  border-radius:10px;
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+}
+
+.energy {
+  width:10px;
+  height:10px;
+  background:#4ade80;
+  border-radius:50%;
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  box-shadow:0 0 10px #4ade80;
+  animation: moveEnergy 2s linear infinite;
+}
+
+@keyframes moveEnergy {
+  0% { left:0%; }
+  100% { left:100%; }
+}
+
+/* Button */
+button {
+  width:100%;
+  padding:14px;
+  margin-top:20px;
+  border:none;
+  border-radius:12px;
+  background: linear-gradient(90deg,#22c55e,#4ade80);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
 </style>
 </head>
+
 <body>
 
-<!-- ✅ Background LEION Logo -->
-<div class="bg-logo">
-  <img src="1000010082.png" alt="LEION Logo" id="bgLogoImg">
-</div>
+<canvas id="bg"></canvas>
 
-<!-- ✅ Power Lines Canvas -->
-<canvas id="powerCanvas"></canvas>
-
-<!-- ✅ Analog Clock -->
-<div class="clock-wrapper">
-  <canvas id="analogClock" width="130" height="130"></canvas>
-  <div class="clock-label">LEION TIME</div>
-</div>
-
-<!-- ✅ Main UI Box -->
 <div class="box">
-  <h2>⚡ AD REWARD</h2>
+  <h2>⚡ Self Earn</h2>
 
   <p id="user">Checking login...</p>
+  <p>📺 Ads: <span id="ads">0</span></p>
+  <p>💰 Points: <span id="points">0</span></p>
 
-  <div class="stat-row">
-    <div class="stat-card">
-      <div class="label">Ads</div>
-      <div class="value" id="ads">0</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Points</div>
-      <div class="value" id="points">0</div>
-    </div>
+  <!-- ⚡ Power Flow -->
+  <div class="power-line">
+    <div class="line"></div>
+    <div class="energy"></div>
   </div>
 
-  <div class="progress">
-    <div class="fill" id="fill"></div>
-  </div>
-
-  <button onclick="watchAd()">▶ WATCH AD</button>
+  <button onclick="watchAd()">🚀 Watch Ad</button>
 </div>
 
 <script>
+
+// Ads logic
 let ads = 0;
 let points = 0;
 
-// ✅ Telegram Login
-let tg = window.Telegram?.WebApp;
-if (tg) {
-  tg.expand();
-  if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-    let user = tg.initDataUnsafe.user;
-    document.getElementById("user").innerText = "👤 " + user.first_name + " (" + user.id + ")";
-  } else {
-    document.getElementById("user").innerText = "❌ Open from Telegram Bot";
-  }
+let tg = window.Telegram.WebApp;
+tg.expand();
+
+if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+  document.getElementById("user").innerText =
+    "👤 " + tg.initDataUnsafe.user.first_name;
 } else {
-  document.getElementById("user").innerText = "⚡ LEION Reward System";
+  document.getElementById("user").innerText = "❌ Open from Telegram";
 }
 
 function update() {
   document.getElementById("ads").innerText = ads;
   document.getElementById("points").innerText = points;
-  document.getElementById("fill").style.width = (ads % 10) * 10 + "%";
 }
 
 function watchAd() {
@@ -312,270 +162,68 @@ function watchAd() {
 
 update();
 
-// =====================
-// ✅ ANALOG CLOCK
-// =====================
-const clockCanvas = document.getElementById('analogClock');
-const ctx = clockCanvas.getContext('2d');
-const CW = 130, CH = 130, CR = 58;
 
-function drawClock() {
-  ctx.clearRect(0, 0, CW, CH);
-  const cx = CW / 2, cy = CH / 2;
-  const now = new Date();
-  const sec = now.getSeconds() + now.getMilliseconds() / 1000;
-  const min = now.getMinutes() + sec / 60;
-  const hr  = (now.getHours() % 12) + min / 60;
+// ⚡ Background Electric Network
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
 
-  // Outer ring glow
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(cx, cy, CR + 4, 0, Math.PI * 2);
-  ctx.strokeStyle = 'rgba(192,192,192,0.08)';
-  ctx.lineWidth = 8;
-  ctx.stroke();
-  ctx.restore();
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener("resize", resize);
 
-  // Clock face
-  const grad = ctx.createRadialGradient(cx - 10, cy - 10, 5, cx, cy, CR);
-  grad.addColorStop(0, '#1a1a1a');
-  grad.addColorStop(1, '#0a0a0a');
-  ctx.beginPath();
-  ctx.arc(cx, cy, CR, 0, Math.PI * 2);
-  ctx.fillStyle = grad;
-  ctx.fill();
+let nodes = [];
+for (let i = 0; i < 25; i++) {
+  nodes.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height
+  });
+}
 
-  // Border
-  ctx.beginPath();
-  ctx.arc(cx, cy, CR, 0, Math.PI * 2);
-  ctx.strokeStyle = 'rgba(192,192,192,0.4)';
-  ctx.lineWidth = 2;
-  ctx.stroke();
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Inner ring
-  ctx.beginPath();
-  ctx.arc(cx, cy, CR - 5, 0, Math.PI * 2);
-  ctx.strokeStyle = 'rgba(192,192,192,0.1)';
-  ctx.lineWidth = 1;
-  ctx.stroke();
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
 
-  // Hour ticks
-  for (let i = 0; i < 12; i++) {
-    const angle = (i / 12) * Math.PI * 2 - Math.PI / 2;
-    const isMain = i % 3 === 0;
-    const r1 = isMain ? CR - 10 : CR - 8;
-    const r2 = CR - 3;
-    ctx.beginPath();
-    ctx.moveTo(cx + Math.cos(angle) * r1, cy + Math.sin(angle) * r1);
-    ctx.lineTo(cx + Math.cos(angle) * r2, cy + Math.sin(angle) * r2);
-    ctx.strokeStyle = isMain ? 'rgba(192,192,192,0.9)' : 'rgba(192,192,192,0.4)';
-    ctx.lineWidth = isMain ? 2 : 1;
-    ctx.stroke();
+      let dx = nodes[i].x - nodes[j].x;
+      let dy = nodes[i].y - nodes[j].y;
+      let dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < 350) {
+        ctx.strokeStyle = "rgba(34,197,94,0.15)";
+        ctx.beginPath();
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+
+        let progress = (Date.now() % 2000) / 2000;
+
+        let px = nodes[i].x + (nodes[j].x - nodes[i].x) * progress;
+        let py = nodes[i].y + (nodes[j].y - nodes[i].y) * progress;
+
+        ctx.fillStyle = "#4ade80";
+        ctx.beginPath();
+        ctx.arc(px, py, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
   }
 
-  // Minute ticks
-  for (let i = 0; i < 60; i++) {
-    if (i % 5 === 0) continue;
-    const angle = (i / 60) * Math.PI * 2 - Math.PI / 2;
+  nodes.forEach(n => {
+    ctx.fillStyle = "#22c55e";
     ctx.beginPath();
-    ctx.moveTo(cx + Math.cos(angle) * (CR - 6), cy + Math.sin(angle) * (CR - 6));
-    ctx.lineTo(cx + Math.cos(angle) * (CR - 3), cy + Math.sin(angle) * (CR - 3));
-    ctx.strokeStyle = 'rgba(192,192,192,0.2)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  }
-
-  // Hour numbers
-  ctx.font = 'bold 9px Orbitron, monospace';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillStyle = 'rgba(192,192,192,0.75)';
-  [12,3,6,9].forEach((n, i) => {
-    const angle = (i / 4) * Math.PI * 2 - Math.PI / 2;
-    ctx.fillText(n, cx + Math.cos(angle) * (CR - 16), cy + Math.sin(angle) * (CR - 16));
+    ctx.arc(n.x, n.y, 4, 0, Math.PI * 2);
+    ctx.fill();
   });
 
-  // ---- Hour hand ----
-  const hrAngle = (hr / 12) * Math.PI * 2 - Math.PI / 2;
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(hrAngle);
-  ctx.beginPath();
-  ctx.moveTo(-5, 3);
-  ctx.lineTo(-5, -1);
-  ctx.lineTo(0, -32);
-  ctx.lineTo(5, -1);
-  ctx.lineTo(5, 3);
-  ctx.closePath();
-  ctx.fillStyle = '#d0d0d0';
-  ctx.shadowColor = 'rgba(192,192,192,0.6)';
-  ctx.shadowBlur = 6;
-  ctx.fill();
-  ctx.restore();
-
-  // ---- Minute hand ----
-  const minAngle = (min / 60) * Math.PI * 2 - Math.PI / 2;
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(minAngle);
-  ctx.beginPath();
-  ctx.moveTo(-3, 4);
-  ctx.lineTo(-3, -1);
-  ctx.lineTo(0, -44);
-  ctx.lineTo(3, -1);
-  ctx.lineTo(3, 4);
-  ctx.closePath();
-  ctx.fillStyle = '#e8e8e8';
-  ctx.shadowColor = 'rgba(192,192,192,0.8)';
-  ctx.shadowBlur = 8;
-  ctx.fill();
-  ctx.restore();
-
-  // ---- Second hand ----
-  const secAngle = (sec / 60) * Math.PI * 2 - Math.PI / 2;
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(secAngle);
-  ctx.beginPath();
-  ctx.moveTo(0, 12);
-  ctx.lineTo(0, -48);
-  ctx.strokeStyle = '#ff4444';
-  ctx.lineWidth = 1.5;
-  ctx.shadowColor = 'rgba(255,60,60,0.8)';
-  ctx.shadowBlur = 6;
-  ctx.stroke();
-  ctx.restore();
-
-  // Center cap
-  ctx.beginPath();
-  ctx.arc(cx, cy, 5, 0, Math.PI * 2);
-  ctx.fillStyle = '#888';
-  ctx.fill();
-  ctx.beginPath();
-  ctx.arc(cx, cy, 3, 0, Math.PI * 2);
-  ctx.fillStyle = '#ff4444';
-  ctx.fill();
-
-  requestAnimationFrame(drawClock);
-}
-drawClock();
-
-// =====================
-// ✅ POWER LINE DOTS
-// =====================
-const pwCanvas = document.getElementById('powerCanvas');
-const pw = pwCanvas.getContext('2d');
-
-function resizePowerCanvas() {
-  pwCanvas.width = window.innerWidth;
-  pwCanvas.height = window.innerHeight;
-}
-resizePowerCanvas();
-window.addEventListener('resize', resizePowerCanvas);
-
-// Define power line paths (horizontal wires across screen)
-const numLines = 7;
-const dots = [];
-const DOT_COUNT = 80;
-
-// Create dot particles for power lines
-function initDots() {
-  dots.length = 0;
-  for (let i = 0; i < DOT_COUNT; i++) {
-    const lineIdx = Math.floor(Math.random() * numLines);
-    const y = getLineY(lineIdx);
-    dots.push({
-      x: Math.random() * pwCanvas.width,
-      y: y,
-      lineIdx: lineIdx,
-      speed: 1.2 + Math.random() * 2.8,
-      size: 1.5 + Math.random() * 2,
-      opacity: 0.4 + Math.random() * 0.6,
-      color: Math.random() > 0.5 ? '#c0c0c0' : '#ffffff',
-      trail: [],
-      trailLen: 6 + Math.floor(Math.random() * 10)
-    });
-  }
+  requestAnimationFrame(draw);
 }
 
-function getLineY(idx) {
-  const margin = 60;
-  const step = (window.innerHeight - margin * 2) / (numLines - 1);
-  return margin + idx * step;
-}
+draw();
 
-function drawPowerLines() {
-  pw.clearRect(0, 0, pwCanvas.width, pwCanvas.height);
-
-  // Draw static wire lines
-  for (let i = 0; i < numLines; i++) {
-    const y = getLineY(i);
-    pw.beginPath();
-    pw.moveTo(0, y);
-    pw.lineTo(pwCanvas.width, y);
-    pw.strokeStyle = 'rgba(192,192,192,0.07)';
-    pw.lineWidth = 1;
-    pw.setLineDash([6, 10]);
-    pw.stroke();
-    pw.setLineDash([]);
-
-    // Pylons / support marks
-    const pCount = 5;
-    for (let p = 0; p <= pCount; p++) {
-      const px = (pwCanvas.width / pCount) * p;
-      pw.beginPath();
-      pw.moveTo(px, y - 10);
-      pw.lineTo(px, y + 10);
-      pw.strokeStyle = 'rgba(192,192,192,0.15)';
-      pw.lineWidth = 2;
-      pw.stroke();
-
-      // Insulator dots
-      pw.beginPath();
-      pw.arc(px, y, 3, 0, Math.PI * 2);
-      pw.fillStyle = 'rgba(192,192,192,0.2)';
-      pw.fill();
-    }
-  }
-
-  // Update & draw moving dots
-  for (let d of dots) {
-    // Save trail
-    d.trail.push({ x: d.x, y: d.y });
-    if (d.trail.length > d.trailLen) d.trail.shift();
-
-    // Move
-    d.x += d.speed;
-    if (d.x > pwCanvas.width + 20) {
-      d.x = -20;
-      d.trail = [];
-    }
-
-    // Draw trail
-    for (let t = 0; t < d.trail.length; t++) {
-      const alpha = (t / d.trail.length) * d.opacity * 0.5;
-      pw.beginPath();
-      pw.arc(d.trail[t].x, d.trail[t].y, d.size * 0.6, 0, Math.PI * 2);
-      pw.fillStyle = d.color.replace(')', `, ${alpha})`).replace('rgb', 'rgba').replace('#c0c0c0', `rgba(192,192,192,${alpha})`).replace('#ffffff', `rgba(255,255,255,${alpha})`);
-      pw.fill();
-    }
-
-    // Draw dot with glow
-    pw.save();
-    pw.shadowColor = d.color;
-    pw.shadowBlur = 10;
-    pw.beginPath();
-    pw.arc(d.x, d.y, d.size, 0, Math.PI * 2);
-    pw.fillStyle = d.color === '#ffffff' ? `rgba(255,255,255,${d.opacity})` : `rgba(192,192,192,${d.opacity})`;
-    pw.fill();
-    pw.restore();
-  }
-
-  requestAnimationFrame(drawPowerLines);
-}
-
-initDots();
-drawPowerLines();
 </script>
 
 </body>
